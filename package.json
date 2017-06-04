@@ -1,0 +1,23 @@
+{
+  "name": "hs-conquest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/jasmine spec/*_spec.js --helper=spec/*_helper.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heartnetkung/hs-conquest.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/heartnetkung/hs-conquest/issues"
+  },
+  "homepage": "https://github.com/heartnetkung/hs-conquest#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine": "^2.6.0"
+  }
+}
