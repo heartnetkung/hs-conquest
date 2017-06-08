@@ -1,4 +1,4 @@
-var conquest = require('../conquest');
+var conquest = require('../docs/conquest');
 
 describeIt('buildCache', function() {
 	// var table = [

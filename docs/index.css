@@ -1,0 +1,57 @@
+.table input {
+	width: 80%;
+	background: none;
+}
+
+input,
+textarea {
+	border-top: none;
+	border-left: none;
+	border-right: none;
+}
+
+.table th,
+.table td {
+	text-align: center;
+}
+
+.table td input {
+	text-align: center;
+}
+
+.table td input::placeholder {
+	color: #ddd;
+}
+
+body {
+	margin-top: 20px;
+	margin-bottom: 80px;
+	color: #555;
+}
+
+hr {
+	margin: 50px;
+}
+
+h2,
+h3 {
+	text-align: left;
+}
+
+.red-bg {
+	background: rgb(205, 92, 92) !important;
+	opacity: 0.1 !important;
+}
+
+.red-bg .red-bg {
+	background: rgb(205, 92, 92) !important;
+	opacity: 1 !important;
+}
+
+.red-bg input {
+	color: white !important;
+}
+
+.red-bg input::placeholder {
+	color: white !important;
+}

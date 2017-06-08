@@ -1,15 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-  </head>
-  <body>
-    <h1>Hello, world!</h1>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-  </body>
+<html lang="en" ng-app="app">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Conquest Win Rate Calculator</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="index.css" rel="stylesheet">
+	<script src="js/angular.min.js"></script>
+	<script src="index.js"></script>
+	<script src="conquest.js"></script>
+</head>
+
+<body ng-controller="ctrl">
+	<center class="container">
+		<h1>Conquest Win Rate Calculator</h1>
+		<br>
+		<h2>Win Rate Input <span style="font-size: 18px;">(or paste from excel or spreadsheet here <textarea ng-trim="false" ng-model="wrExcel" ng-change="excelChange()"></textarea>)</span></h2>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th></th>
+					<th>
+						<input ng-change="cellChange()" placeholder="Opponent's Deck 1" ng-model="wr[0][1]">
+					</th>
+					<th>
+						<input ng-change="cellChange()" placeholder="Opponent's Deck 2" ng-model="wr[0][2]">
+					</th>
+					<th>
+						<input ng-change="cellChange()" placeholder="Opponent's Deck 3" ng-model="wr[0][3]">
+					</th>
+					<th>
+						<input ng-change="cellChange()" placeholder="Opponent's Deck 4" ng-model="wr[0][4]">
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>
+						<input ng-change="cellChange()" placeholder="Your Deck 1" ng-model="wr[1][0]">
+					</th>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[1][1]">
+					</td>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[1][2]">
+					</td>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[1][3]">
+					</td>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[1][4]">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<input ng-change="cellChange()" placeholder="Your Deck 2" ng-model="wr[2][0]">
+					</th>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[2][1]">
+					</td>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[2][2]">
+					</td>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[2][3]">
+					</td>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[2][4]">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<input ng-change="cellChange()" placeholder="Your Deck 3" ng-model="wr[3][0]">
+					</th>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[3][1]">
+					</td>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[3][2]">
+					</td>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[3][3]">
+					</td>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[3][4]">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<input ng-change="cellChange()" placeholder="Your Deck 4" ng-model="wr[4][0]">
+					</th>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[4][1]">
+					</td>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[4][2]">
+					</td>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[4][3]">
+					</td>
+					<td>
+						<input ng-change="cellChange()" placeholder="{{random()}}" ng-model="wr[4][4]">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<hr>
+		<h2>Win Rate Output If Ban(x,y)</h2>
+		<table class="table table-bordered" ng-class="{'table-striped': !(banX&&banY)}">
+			<tr ng-repeat="row in output1 track by $index" ng-class="{'red-bg':$index===banX}">
+				<td ng-repeat="cell in row track by $index" ng-class="{'red-bg':$index===banY}">{{round(cell)}}</td>
+			</tr>
+		</table>
+		<div style="text-align: left;">
+			<br>
+			<h3 style="display: inline;">Your Banned deck is ... </h3>
+			<select ng-change="selectChange()" ng-options="o disable when !output1 for o in ['No Select',wr[1][0],wr[2][0],wr[3][0],wr[4][0]]" ng-model='yourBan'></select>
+			<br>
+			<br>
+			<h3 style="display: inline;">Opponent's Banned deck is ... </h3>
+			<select ng-change="selectChange()" ng-options="o disable when !output1 for o in ['No Select',wr[0][1],wr[0][2],wr[0][3],wr[0][4]]" ng-model='oppoBan'></select>
+		</div>
+		<hr>
+		<h2>Win Rate Output If FirstPick(x,y)</h2>
+		<table class="table table-striped table-bordered">
+			<tr ng-repeat="row in output2.firstPickTable track by $index">
+				<td ng-repeat="cell in row track by $index">{{round(cell)}}</td>
+			</tr>
+		</table>
+		<br>
+		<h3>Your Average Win Rate is {{round(output2.winrate)}}</h3>
+	</center>
+</body>
+
 </html>
